@@ -1,0 +1,23 @@
+.dropdown-item {
+    background-color: rgba(0,0,0,0);
+    color: rgba(0,0,0,0.65);
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: rgba(0,0,0,0);
+    color: rgba(0,0,0,1);
+}
+
+.dropdown-toggle {
+    background-color: rgba(0,0,0,0);
+    color: rgba(0,0,0,0.65);
+}
+
+.dropdown-toggle.active, .dropdown-toggle:active {
+    background-color: rgba(0,0,0,0);
+    color: rgba(0,0,0,1);
+}
+
+.main_frame {
+    height: 83vh!important
+}

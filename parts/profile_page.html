@@ -1,0 +1,38 @@
+<section class="main_frame">
+   <div class="container py-5 h-100">
+   <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-12 col-xl-4">
+         <div class="card" style="border-radius: 15px;">
+            <div class="card-body text-center">
+               <h4 id="profile_fio" class="mb-2"></h4>
+               <p class="text-muted mb-1">Mail: <a id="profile_mail" href="javascript:void(0)"></a></p>
+               <p class="text-muted mb-1">Телефон: <a id="profile_phone" href="javascript:void(0)"></a></p>
+               <p id="profile_bdate" class="text-muted mb-1"></p>
+               <p id="profile_passport" class="text-muted mb-1"></p>
+               <div class="offset-md-3 mb-4 pb-2">
+                  <div class="d-flex justify-content-between text-center mt-5 mb-2">
+                     <div>
+                        <p id="profile_reserved" class="mb-2 h5"></p>
+                        <p class="text-muted mb-0">Зарезервировано мест</p>
+                     </div>
+                  </div>
+               </div>
+               <button type="button" class="btn btn-danger mb-4" id="remove_account">Удалить аккаунт</button>
+               <form id="update_profile_info_form">
+                  <div data-mdb-input-init class="form-outline mb-4">
+                     <input required type="password" id="password" name="password" class="form-control" />
+                     <label class="form-label" for="password">Пароль</label>
+                  </div>
+                  <div data-mdb-input-init class="form-outline mb-4">
+                     <input required type="password" id="repassword" name="repassword" class="form-control" />
+                     <label class="form-label" for="repassword">Повторите пароль</label>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                     <input type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary" value="Обновить пароль" />
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>

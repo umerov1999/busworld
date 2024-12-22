@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Test</title>
+	<style type="text/css">
+		#canvas_back {
+			background-image: url("./flappybirdbg.png");
+		}
+		body {
+			text-align: center;
+		}
+	</style>
+	<script>
+		let cnv;
+		let cnv_w = 360;
+		let cnv_h = 640;
+		let context;
+
+		let bird_w = 30;
+		let bird_h = 25;
+		let bird_x = cnv_w / 5;
+		let bird_y = cnv_h / 2;
+		let bird_img;
+		let bird = {
+			x: bird_x,
+			y: bird_y,
+			w: bird_w,
+			h: bird_h,
+			i: bird_img
+		}
+
+		let pipe_w = 60;
+		let pipe_h = 500;
+		let pipe_x = cnv_w;
+		let pipe_y = 0;
+		let pipe_top_img;
+		let pipe_bottom_img;
+
+		let vel_x = -2;
+		let vel_y = 0;
+		let gravity = 0.5;
+		let score = 0;
+		let is_playing = true;
+
+		let pipeArray = [];
+
+		let intervalId;
+		let delayCreationPipe = 2000;
+		let hole = cnv_h / 4;
+
+		let userName;
+
+		window.onload = function() {
+			userName = prompt("Введите имя:");
+
+			cnv = document.getElementById("canvas_back");
+			cnv.width = cnv_w;
+			cnv.height = cnv_h;
+			context = cnv.getContext("2d");
+
+			bird.i = new Image();
+			bird.i.src = "./flappybird.png";
+
+			pipe_top_img = new Image();
+			pipe_top_img.src = "./toppipe.png";
+
+			pipe_bottom_img = new Image();
+			pipe_bottom_img.src = "./bottompipe.png";
+			bird.i.onload = function () {
+				redraw();
+			}
+
+			document.addEventListener("keydown", fly);
+
+			intervalId = setInterval(create_pipe, delayCreationPipe);
+		}
+
+		function getRandomInt(max) {
+			return Math.floor(Math.random() * max);
+		}
+
+		function getTextWidth(text, font) {
+			let span = document.createElement('span');
+			span.style.cssText = `font: ${font}; visibility: hidden; white-space: nowrap;`;
+			span.textContent = text;
+			document.body.appendChild(span);
+			let width = span.offsetWidth;
+			document.body.removeChild(span);
+			return width;
+		}
+
+		function redraw() {
+			context.clearRect(0, 0, cnv.width, cnv.height);
+			vel_y += gravity;
+			bird.y = Math.max(bird.y + vel_y, 0);
+			context.drawImage(bird.i, bird.x, bird.y, bird.w, bird.h);
+			if (bird.y >= cnv_h - bird.h) {
+				is_playing = false;
+			}
+
+			for (let i = 0; i < pipeArray.length; i++) {
+				let pipe = pipeArray[i];
+				pipe.x = pipe.x + vel_x;
+				context.drawImage(pipe.i, pipe.x, pipe.y, pipe.w, pipe.h);
+
+				if (is_playing && checkHit(bird, pipe)) {
+					is_playing = false;
+				} else if (is_playing && !pipe.succ && bird.x > pipe.x + pipe.w) {
+					pipe.succ = true;
+					score += 0.5;
+
+					if (score > 0 && score % 5 == 0) {
+						//clearInterval(intervalId);
+						//delayCreationPipe -= 250;
+						//intervalId = setInterval(create_pipe, delayCreationPipe);
+						hole -= cnv_h / 14;
+					}
+				}
+			}
+
+			while(pipeArray.length > 0 && pipeArray[0].x < -pipe_w) {
+				pipeArray.shift();
+			}
+			context.font = "40px Arial";
+			context.fillStyle = "White";
+			context.fillText(score, cnv_w / 2 - getTextWidth(score.toString(), "40px Arial") / 2, 80);
+			if (!is_playing) {
+				context.fillText("ВЫ ПРОИГРАЛИ", cnv_w / 2 - getTextWidth("ВЫ ПРОИГРАЛИ", "40px Arial") / 2, cnv_h / 2);
+				publisheResult();
+				return;
+			}
+			requestAnimationFrame(redraw);
+		}
+
+		function fly() {
+			vel_y = -5;
+		}
+
+		function create_pipe() {
+			if (!is_playing) {
+				clearInterval(intervalId);
+				return;
+			}
+			let randY = pipe_y - pipe_h / 4 - getRandomInt(pipe_h / 2);
+
+			let topPipe = {
+				x: pipe_x,
+				y: randY,
+				w: pipe_w,
+				h: pipe_h,
+				i: pipe_top_img,
+				succ: false
+			}
+
+			pipeArray.push(topPipe);
+
+			let bottomPipe = {
+				x: pipe_x,
+				y: randY + hole + topPipe.h,
+				w: pipe_w,
+				h: pipe_h,
+				i: pipe_bottom_img,
+				succ: false
+			}
+			pipeArray.push(bottomPipe);
+		}
+
+		function checkHit(b, p) {
+			return b.x < p.x + p.w &&
+			b.x + b.w > p.x &&
+			b.y < p.y + p.h &&
+			b.y + b.h > p.y;
+		}
+
+		function publisheResult() {
+			var f = document.createElement("form");
+			f.setAttribute('method',"GET");
+			f.setAttribute('action',"http://192.168.201.41/fb");
+
+			var i = document.createElement("input");
+			i.setAttribute('type',"hidden");
+			i.setAttribute('name',"name");
+			i.setAttribute('value', userName);
+
+			var k = document.createElement("input");
+			k.setAttribute('type',"hidden");
+			k.setAttribute('name',"score");
+			k.setAttribute('value', score);
+
+			f.appendChild(i);
+			f.appendChild(k);
+
+			document.body.appendChild(f);
+			f.submit();
+		}
+	</script>
+</head>
+<body>
+ <canvas id="canvas_back">
+ </canvas>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<section class="main_frame">
+	<div class="mask d-flex align-items-center h-100">
+		<div class="container h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="offset-md-1 col-6 col-md-8 col-lg-12 col-xl-12">
+					<div class="card" style="border-radius: 15px;">
+						<div class="card-body p-5">
+							<h2 class="text-uppercase text-center mb-5">Заполните пассажиров</h2>
+							<form class="row row-cols-lg-6 g-6" id="add_passanger">
+								<div data-mdb-input-init class="form-outline mb-4">
+									<input required type="text" id="lastname" name="lastname" class="form-control" />
+									<label class="form-label" for="lastname">Фамилия</label>
+								</div>
+								<div data-mdb-input-init class="form-outline mb-4">
+									<input required type="text" id="firstname" name="firstname" class="form-control" />
+									<label class="form-label" for="firstname">Имя</label>
+								</div>
+								<div data-mdb-input-init class="form-outline mb-4">
+									<input required type="text" id="surname" name="surname" class="form-control" />
+									<label class="form-label" for="surname">Отчество</label>
+								</div>
+								<div data-mdb-input-init class="form-outline mb-4">
+									<input required type="date" id="bdate" name="bdate" class="form-control" />
+									<label class="form-label" for="bdate">Дата рождения</label>
+								</div>
+								<div data-mdb-input-init class="form-outline mb-4">
+									<input required type="text" id="passport" name="passport" pattern="[0-9]{2} [0-9]{2} [0-9]{6}" class="form-control" />
+									<label class="form-label" for="passport">Серия и номер паспорта</label>
+								</div>
+								<div class="form-outline mb-4">
+									<input type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" value="Добавить" />
+								</div>
+							</form>
+							<table id="passengers" class="table">
+								<thead>
+									<tr>
+										<th scope="col">Выбран</th>
+										<th scope="col">Фамилия</th>
+										<th scope="col">Имя</th>
+										<th scope="col">Отчество</th>
+										<th scope="col">Дата рождения</th>
+										<th scope="col">Паспорт</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr></tr>
+								</tbody>
+							</table>
+							<button type="button" class="btn btn-secondary" id="my_info">Я</button>
+							<button type="button" class="btn btn-outline-danger" id="remove_passanger">Удалить</button>
+
+							<p class="text-center text-muted mt-5 mb-0">
+								<a id="main_sub" href="javascript:void(0)" class="btn btn-outline-danger"><u>Главная</u></a>
+								<a id="process_reserved_sub" href="javascript:void(0)" class="btn btn-outline-success"><u>Забронировать</u></a>
+							</p>
+							<p id="price_result" class="text-end fs-3 text-muted mt-1 mb-0">0₽</p>
+							<p hidden id="price">0</p>
+							<p hidden id="price_stock">0</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
